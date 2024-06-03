@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
 public class TaskController {
 
     // Assuming you have a TaskService class for handling operations related to tasks
@@ -15,27 +14,32 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @GetMapping
+    @GetMapping("/")
+    public String home() {
+        return "Wenn du das ließt, funktioniert das Backend!";
+    }
+
+    @GetMapping("/tasks")
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/tasks/{id}")
     public Task getTask(@PathVariable int id) {
         return taskService.getTask(id);
     }
 
-    @PostMapping
+    @PostMapping("/tasks")
     public Task createTask(@RequestBody Task task) {
         return taskService.createTask(task);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/tasks/{id}")
     public Task updateTask(@PathVariable int id, @RequestBody Task task) {
         return taskService.updateTask(id, task);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/tasks/{id}")
     public void deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
     }

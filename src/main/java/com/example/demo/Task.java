@@ -1,16 +1,23 @@
 package com.example.demo;
 
-
+import jakarta.persistence.*;
 import java.util.Date;
 
-public class Task{
+@Entity
+public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
     private String description;
     private boolean done;
+    @Temporal(TemporalType.DATE)
     private Date dueDate;
 
-    // Constructor
+    // Standardkonstruktor
+    public Task() {}
+
+    // Konstruktor mit Parametern
     public Task(int id, String title, String description, boolean done, Date dueDate) {
         this.id = id;
         this.title = title;
@@ -19,7 +26,7 @@ public class Task{
         this.dueDate = dueDate;
     }
 
-    // Getter and Setter for id
+    // Getter und Setter für id
     public int getId() {
         return id;
     }
@@ -28,7 +35,7 @@ public class Task{
         this.id = id;
     }
 
-    // Getter and Setter for title
+    // Getter und Setter für title
     public String getTitle() {
         return title;
     }
@@ -37,7 +44,7 @@ public class Task{
         this.title = title;
     }
 
-    // Getter and Setter for description
+    // Getter und Setter für description
     public String getDescription() {
         return description;
     }
@@ -46,8 +53,8 @@ public class Task{
         this.description = description;
     }
 
-    // Getter and Setter for status
-    public boolean getDone() {
+    // Getter und Setter für done
+    public boolean isDone() {
         return done;
     }
 
@@ -55,7 +62,7 @@ public class Task{
         this.done = done;
     }
 
-    // Getter and Setter for dueDate
+    // Getter und Setter für dueDate
     public Date getDueDate() {
         return dueDate;
     }
@@ -64,19 +71,19 @@ public class Task{
         this.dueDate = dueDate;
     }
 
-    // Method to update the status of the task
+    // Methode zum Aktualisieren des Status der Aufgabe
     public void updateDueDate(boolean newDone) {
         setDone(newDone);
     }
 
-    // Override toString method for easy printing of task details
+    // Überschreibe die toString-Methode für eine einfache Ausgabe der Aufgabendetails
     @Override
     public String toString() {
         return "Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", status='" + done + '\'' +
+                ", done=" + done +
                 ", dueDate=" + dueDate +
                 '}';
     }
