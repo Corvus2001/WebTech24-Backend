@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
                     .allowedOrigins("https://webtech2024-frontend-1.onrender.com",
-                            "http://localhost:3000");
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                            "http://localhost:3000")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE")
                     .allowedHeaders("*")
                     .allowCredentials(true);
         }
