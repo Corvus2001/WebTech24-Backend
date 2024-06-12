@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         @Override
         public void addCorsMappings(CorsRegistry registry) {
             registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:8080","http://localhost:8082", "http://localhost:5173", "https://webtech2024-frontend-1.onrender.com")
+                    .allowedOrigins("http://localhost:8080","http://localhost:8082", "http://localhost:5180", "https://webtech2024-frontend-1.onrender.com")
                     .allowedMethods("*")
                     .allowedHeaders("*")
                     .allowCredentials(true);
