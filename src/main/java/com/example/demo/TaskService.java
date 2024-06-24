@@ -74,8 +74,11 @@ public class TaskService {
         Task existingTask = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
+        existingTask.setDone(task.isDone());
+        existingTask.setDueDate(task.getDueDate());
         return taskRepository.save(existingTask);
     }
+
 
     public void deleteTask(int id) {
         taskRepository.deleteById(id);
