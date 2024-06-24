@@ -159,14 +159,21 @@ public class TaskController {
         return new TaskResponse(createdTask.getId(), createdTask.getTitle(), createdTask.getDescription(), createdTask.isDone(), createdTask.getDueDate());
     }
 
-    @PutMapping("/{id}")
+    PutMapping("/{id}")
     public TaskResponse updateTask(@PathVariable int id, @RequestBody TaskRequest taskRequest) {
-        Task task = new Task();
+        // Retrieve the existing task
+        Task task = taskService.getTask(id);
+
+        // Update the task with new values from the request
         task.setTitle(taskRequest.getTitle());
         task.setDescription(taskRequest.getDescription());
         task.setDone(taskRequest.isDone());
         task.setDueDate(taskRequest.getDueDate());
+
+        // Save the updated task back to the database
         Task updatedTask = taskService.updateTask(id, task);
+
+        // Return the updated task details as a response
         return new TaskResponse(updatedTask.getId(), updatedTask.getTitle(), updatedTask.getDescription(), updatedTask.isDone(), updatedTask.getDueDate());
     }
 
