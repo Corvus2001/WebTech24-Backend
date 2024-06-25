@@ -161,7 +161,9 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public TaskResponse updateTask(@PathVariable int id, @RequestBody TaskRequest taskRequest) {
-        Task task = new Task();
+        //Task task = new Task();
+        // Fetch the existing task
+        Task task = taskService.getTask(id);
         task.setTitle(taskRequest.getTitle());
         task.setDescription(taskRequest.getDescription());
         task.setDone(taskRequest.isDone());
