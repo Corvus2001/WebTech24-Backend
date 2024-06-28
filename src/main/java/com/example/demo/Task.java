@@ -14,19 +14,17 @@ public class Task {
     @Temporal(TemporalType.DATE)
     private Date dueDate;
 
-    // Standardkonstruktor
     public Task() {}
 
-    // Konstruktor mit Parametern
-    public Task(int id, String title, String description, boolean done, Date dueDate) {
-        this.id = id;
+    public Task(String title, String description, boolean done, Date dueDate) {
         this.title = title;
         this.description = description;
         this.done = done;
         this.dueDate = dueDate;
     }
 
-    // Getter und Setter für id
+    // Getter ve Setter metodları
+
     public int getId() {
         return id;
     }
@@ -35,7 +33,6 @@ public class Task {
         this.id = id;
     }
 
-    // Getter und Setter für title
     public String getTitle() {
         return title;
     }
@@ -44,7 +41,6 @@ public class Task {
         this.title = title;
     }
 
-    // Getter und Setter für description
     public String getDescription() {
         return description;
     }
@@ -53,7 +49,6 @@ public class Task {
         this.description = description;
     }
 
-    // Getter und Setter für done
     public boolean isDone() {
         return done;
     }
@@ -62,29 +57,11 @@ public class Task {
         this.done = done;
     }
 
-    // Getter und Setter für dueDate
     public Date getDueDate() {
         return dueDate;
     }
 
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
-    }
-
-    // Methode zum Aktualisieren des Status der Aufgabe
-    public void updateDueDate(boolean newDone) {
-        setDone(newDone);
-    }
-
-    // Überschreibe die toString-Methode für eine einfache Ausgabe der Aufgabendetails
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", done=" + done +
-                ", dueDate=" + dueDate +
-                '}';
     }
 }

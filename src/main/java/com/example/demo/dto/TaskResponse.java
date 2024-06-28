@@ -9,7 +9,6 @@ public class TaskResponse {
     private boolean done;
     private Date dueDate;
 
-    // Constructor
     public TaskResponse(int id, String title, String description, boolean done, Date dueDate) {
         this.id = id;
         this.title = title;
@@ -19,6 +18,7 @@ public class TaskResponse {
     }
 
     // Getter ve Setter metodları
+
     public int getId() {
         return id;
     }
