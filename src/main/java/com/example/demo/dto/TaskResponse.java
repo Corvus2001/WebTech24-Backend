@@ -1,12 +1,15 @@
 package com.example.demo.dto;
 
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class TaskResponse {
     private int id;
     private String title;
     private String description;
     private boolean done;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     public TaskResponse(int id, String title, String description, boolean done, Date dueDate) {

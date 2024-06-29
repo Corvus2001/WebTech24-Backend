@@ -3,6 +3,7 @@ package com.example.demo;
 import com.example.demo.dto.TaskRequest;
 import com.example.demo.dto.TaskResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTask(@PathVariable int id) {
         taskService.deleteTask(id);
     }
