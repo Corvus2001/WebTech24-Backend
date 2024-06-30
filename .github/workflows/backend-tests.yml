@@ -14,9 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DB_NAME: ${{ secrets.DB_NAME }}
-      DB_USERNAME: ${{ secrets.DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: dpg-cpn17duehbks7380eta0-a
+      DB_NAME: berkay_db
+      DB_USERNAME: berkay_db_user
+      DB_PASSWORD: mrS7KP3auNE70LJcC042UMtX33mJKrTY
+      DB_PORT: 5432
 
     services:
       postgres:
@@ -28,8 +30,8 @@ jobs:
         options: >-
           --health-cmd="pg_isready -U $POSTGRES_USER" 
           --health-interval=10s 
-          --health-timeout=5s 
-          --health-retries=5
+          --health-timeout=10s 
+          --health-retries=10
 
     steps:
       - uses: actions/checkout@v2
@@ -54,15 +56,15 @@ jobs:
 
       - name: Wait for PostgreSQL
         env:
-          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_USER: ${{ env.DB_USERNAME }}
         run: |
-          until pg_isready -h localhost -U $POSTGRES_USER; do
+          until pg_isready -h ${{ env.DB_HOST }} -U $POSTGRES_USER -p ${{ env.DB_PORT }}; do
             echo "$(date) - waiting for postgres...";
-            sleep 2;
+            sleep 5;
           done
 
       - name: Set up database URL
-        run: echo "DB_URL=jdbc:postgresql://localhost:5432/${{ env.DB_NAME }}" >> $GITHUB_ENV
+        run: echo "DB_URL=jdbc:postgresql://${{ env.DB_HOST }}:${{ env.DB_PORT }}/${{ env.DB_NAME }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         env:
