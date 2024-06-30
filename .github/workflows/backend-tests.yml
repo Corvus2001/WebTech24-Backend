@@ -1,6 +1,7 @@
 name: Backend Tests
 
 on:
+  workflow_dispatch:  # Dies ermöglicht die manuelle Ausführung
   push:
     branches:
       - main
@@ -19,6 +20,8 @@ jobs:
           POSTGRES_DB: ${{ secrets.DB_NAME }}
           POSTGRES_USER: ${{ secrets.DB_USERNAME }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_HOST: ${{ secrets.DB_HOST }}
+          POSTGRES_PORT: ${{ secrets.DB_PORT }}
         options: >-
           --health-cmd="pg_isready -U ${{ secrets.DB_USERNAME }}" 
           --health-interval=10s 
@@ -47,13 +50,13 @@ jobs:
 
       - name: Wait for PostgreSQL
         run: |
-          until pg_isready -h localhost -U ${{ secrets.DB_USERNAME }}; do
+          until pg_isready -h ${{ secrets.DB_HOST }} -p ${{ secrets.DB_PORT }} -U ${{ secrets.DB_USERNAME }}; do
             echo "$(date) - waiting for postgres...";
             sleep 2;
           done
 
       - name: Set up database URL
-        run: echo "DB_URL=jdbc:postgresql://localhost:5432/${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+        run: echo "DB_URL=jdbc:postgresql://${{ secrets.DB_HOST }}:${{ secrets.DB_PORT }}/${{ secrets.DB_NAME }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         env:
