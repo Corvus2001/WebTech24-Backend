@@ -17,8 +17,6 @@ jobs:
       DB_NAME: ${{ secrets.DB_NAME }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_HOST: localhost
-      DB_PORT: 5432
 
     services:
       postgres:
@@ -28,10 +26,10 @@ jobs:
           POSTGRES_USER: ${{ env.DB_USERNAME }}
           POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
         options: >-
-          --health-cmd="pg_isready -U ${{ env.DB_USERNAME }} -h localhost" 
+          --health-cmd="pg_isready -U $POSTGRES_USER" 
           --health-interval=10s 
           --health-timeout=5s 
-          --health-retries=10
+          --health-retries=5
 
     steps:
       - uses: actions/checkout@v2
@@ -40,7 +38,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '21'
-          distribution: 'temurin'
+          distribution: 'temurin'  # Options: 'adopt', 'zulu', 'temurin', etc.
 
       - name: Cache Gradle packages
         uses: actions/cache@v2
@@ -55,14 +53,16 @@ jobs:
         run: chmod +x gradlew
 
       - name: Wait for PostgreSQL
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
         run: |
-          until pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USERNAME; do
+          until pg_isready -h localhost -U $POSTGRES_USER; do
             echo "$(date) - waiting for postgres...";
-            sleep 5;
+            sleep 2;
           done
 
       - name: Set up database URL
-        run: echo "DB_URL=jdbc:postgresql://$DB_HOST:$DB_PORT/$DB_NAME" >> $GITHUB_ENV
+        run: echo "DB_URL=jdbc:postgresql://localhost:5432/${{ env.DB_NAME }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         env:
