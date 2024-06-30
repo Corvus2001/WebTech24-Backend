@@ -17,11 +17,11 @@ jobs:
       postgres:
         image: postgres:latest
         env:
-          POSTGRES_DB: berkay_db
-          POSTGRES_USER: berkay_db_user
-          POSTGRES_PASSWORD: mrS7KP3auNE70LJcC042UMtX33mJKrTY
+          POSTGRES_DB: ${{ secrets.DB_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
         options: >-
-          --health-cmd="pg_isready -U berkay_db_user" 
+          --health-cmd="pg_isready -U ${{ secrets.DB_USERNAME }}" 
           --health-interval=10s 
           --health-timeout=5s 
           --health-retries=5
@@ -33,6 +33,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '21'
+          distribution: 'temurin'  # Verfügbar sind: 'adopt', 'zulu', 'temurin', usw.
 
       - name: Cache Gradle packages
         uses: actions/cache@v2
@@ -56,7 +57,7 @@ jobs:
           done
 
       - name: Set up database URL
-        run: echo "DB_URL=jdbc:postgresql://localhost:5432/berkay_db" >> $GITHUB_ENV
+        run: echo "DB_URL=jdbc:postgresql://localhost:5432/${{ secrets.DB_NAME }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         env:
