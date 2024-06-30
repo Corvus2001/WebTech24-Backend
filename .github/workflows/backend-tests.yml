@@ -57,7 +57,9 @@ jobs:
           done
 
       - name: Set up database URL
-        run: echo "DB_URL=jdbc:postgresql://localhost:5432/${{ secrets.DB_NAME }}" >> $GITHUB_ENV
+        env:
+          DB_NAME: ${{ secrets.DB_NAME }}
+        run: echo "DB_URL=jdbc:postgresql://localhost:5432/${{ env.DB_NAME }}" >> $GITHUB_ENV
 
       - name: Build with Gradle
         env:
